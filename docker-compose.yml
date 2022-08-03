@@ -161,7 +161,7 @@ services:
       - --log=trace 
       - --user=root 
       - --pass=root 
-      - tikv://pd0:2379,tikv://pd1:2379,tikv://pd2:2379
+      - tikv://pd0:2379
     depends_on:
       - tikv0
       - tikv1
