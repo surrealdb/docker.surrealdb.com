@@ -27,5 +27,5 @@ docker-compose up -d
 ###### Spin up a multi-node development environment with monitoring
 
 ```bash
-docker-compose --profile monitors up -d
+docker-compose --profile monitoring up -d
 ```
