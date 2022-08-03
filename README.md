@@ -18,20 +18,14 @@ curl -sSf https://docker.surrealdb.com -o docker-compose.yml
 
 #### 3. Start the Docker Compose cluster
 
-###### Spin up a minimal development environment
+###### Spin up a multi-node development environment
 
 ```bash
 docker-compose up -d
 ```
 
-###### Spin up a multi-node development environment
-
-```bash
-docker-compose --profile distributed up -d
-```
-
 ###### Spin up a multi-node development environment with monitoring
 
 ```bash
-docker-compose --profile distributed --profile monitors up -d
+docker-compose --profile monitors up -d
 ```
