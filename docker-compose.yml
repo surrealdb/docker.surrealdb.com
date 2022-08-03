@@ -166,4 +166,4 @@ services:
       - tikv0
       - tikv1
       - tikv2
-    restart: on-failure
+    restart: always
