@@ -3,8 +3,7 @@ version: '3.8'
 services:
 
   pd0:
-    container_name: surrealdb-pd0
-    image: pingcap/pd:latest
+    image: pingcap/pd:v6.1.0
     ports:
       - "2379"
     volumes:
@@ -22,8 +21,7 @@ services:
     restart: on-failure
 
   pd1:
-    container_name: surrealdb-pd1
-    image: pingcap/pd:latest
+    image: pingcap/pd:v6.1.0
     ports:
       - "2379"
     volumes:
@@ -41,8 +39,7 @@ services:
     restart: on-failure
 
   pd2:
-    container_name: surrealdb-pd2
-    image: pingcap/pd:latest
+    image: pingcap/pd:v6.1.0
     ports:
       - "2379"
     volumes:
@@ -60,8 +57,7 @@ services:
     restart: on-failure
 
   tikv0:
-    container_name: surrealdb-tikv0
-    image: pingcap/tikv:latest
+    image: pingcap/tikv:v6.1.0
     volumes:
       - ./data:/data
       - ./logs:/logs
@@ -78,8 +74,7 @@ services:
     restart: on-failure
 
   tikv1:
-    container_name: surrealdb-tikv1
-    image: pingcap/tikv:latest
+    image: pingcap/tikv:v6.1.0
     volumes:
       - ./data:/data
       - ./logs:/logs
@@ -96,8 +91,7 @@ services:
     restart: on-failure
 
   tikv2:
-    container_name: surrealdb-tikv2
-    image: pingcap/tikv:latest
+    image: pingcap/tikv:v6.1.0
     volumes:
       - ./data:/data
       - ./logs:/logs
@@ -114,7 +108,6 @@ services:
     restart: on-failure
 
   prometheus:
-    container_name: surrealdb-prometheus
     image: prom/prometheus:v2.2.1
     user: root
     command:
@@ -135,7 +128,6 @@ services:
 
   grafana:
     image: grafana/grafana:6.0.1
-    container_name: surrealdb-grafana
     user: "0"
     environment:
       GF_LOG_LEVEL: error
@@ -152,7 +144,6 @@ services:
       - monitoring
 
   surrealdb:
-    container_name: surrealdb
     image: surrealdb/surrealdb:latest
     ports:
       - "8000"
