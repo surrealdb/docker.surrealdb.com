@@ -14,7 +14,7 @@ exports.main = async (event) => {
 			}],
 			'content-type': [{
 				key: 'Content-Type',
-				value: 'application/x-yaml'
+				value: 'text/yaml'
 			}]
 		},
 		body: SCRIPT,
