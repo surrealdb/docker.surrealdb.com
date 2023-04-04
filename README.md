@@ -27,5 +27,5 @@ docker-compose up --pull always -d
 ###### Spin up a multi-node development environment with monitoring
 
 ```bash
-docker-compose --profile monitoring up -d
+docker-compose up --pull always --profile monitoring -d
 ```
