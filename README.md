@@ -21,7 +21,7 @@ curl -sSf https://docker.surrealdb.com -o docker-compose.yml
 ###### Spin up a multi-node development environment
 
 ```bash
-docker-compose up -d
+docker-compose up --pull always -d
 ```
 
 ###### Spin up a multi-node development environment with monitoring
