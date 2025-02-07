@@ -6,8 +6,8 @@ services:
     ports:
       - "2379"
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --name=pd0
       - --client-urls=http://0.0.0.0:2379
@@ -31,8 +31,8 @@ services:
     ports:
       - "2379"
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --name=pd1
       - --client-urls=http://0.0.0.0:2379
@@ -56,8 +56,8 @@ services:
     ports:
       - "2379"
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --name=pd2
       - --client-urls=http://0.0.0.0:2379
@@ -79,11 +79,12 @@ services:
     hostname: tikv0
     image: pingcap/tikv:v8.5.0
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --addr=0.0.0.0:20160
       - --advertise-addr=tikv0:20160
+      - --status-addr=0.0.0.0:20180
       - --data-dir=/data/tikv0
       - --pd=pd0:2379,pd1:2379,pd2:2379
       - --log-file=/logs/tikv0.log
@@ -106,11 +107,12 @@ services:
     hostname: tikv1
     image: pingcap/tikv:v8.5.0
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --addr=0.0.0.0:20160
       - --advertise-addr=tikv1:20160
+      - --status-addr=0.0.0.0:20180
       - --data-dir=/data/tikv1
       - --pd=pd0:2379,pd1:2379,pd2:2379
       - --log-file=/logs/tikv1.log
@@ -133,11 +135,12 @@ services:
     hostname: tikv2
     image: pingcap/tikv:v8.5.0
     volumes:
-      - ./data:/data
-      - ./logs:/logs
+      - data:/data
+      - logs:/logs
     command:
       - --addr=0.0.0.0:20160
       - --advertise-addr=tikv2:20160
+      - --status-addr=0.0.0.0:20180
       - --data-dir=/data/tikv2
       - --pd=pd0:2379,pd1:2379,pd2:2379
       - --log-file=/logs/tikv2.log
@@ -154,44 +157,6 @@ services:
       start_period: 5s
       retries: 5
       timeout: 10s
-
-  prometheus:
-    container_name: surrealdb-prometheus
-    image: prom/prometheus:v3.1.0
-    user: root
-    command:
-      - --log.level=error
-      - --storage.tsdb.path=/data/prometheus
-      - --config.file=/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ./config/pd.rules.yml:/etc/prometheus/pd.rules.yml:ro
-      - ./config/tikv.rules.yml:/etc/prometheus/tikv.rules.yml:ro
-      - ./config/tidb.rules.yml:/etc/prometheus/tidb.rules.yml:ro
-      - ./data:/data
-    restart: on-failure
-    profiles:
-      - monitoring
-
-  grafana:
-    image: grafana/grafana:11.4.0
-    container_name: surrealdb-grafana
-    user: "0"
-    environment:
-      GF_LOG_LEVEL: error
-      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
-      GF_PATHS_CONFIG: /etc/grafana/grafana.ini
-    volumes:
-      - ./config/grafana:/etc/grafana
-      - ./config/dashboards:/tmp/dashboards
-      - ./data/grafana:/var/lib/grafana
-    ports:
-      - "3000:3000"
-    restart: on-failure
-    profiles:
-      - monitoring
 
   surrealdb:
     image: surrealdb/surrealdb:latest
@@ -212,3 +177,7 @@ services:
       tikv2:
         condition: service_healthy
     restart: always
+
+volumes:
+  data: {}
+  logs: {}
